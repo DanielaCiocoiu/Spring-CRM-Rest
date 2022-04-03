@@ -19,19 +19,13 @@ import com.luv2code.springdemo.service.CustomerService;
 @RequestMapping("/api")
 public class CustomerRestController {
 
-	// autowire the CustomerService
 	@Autowired
 	private CustomerService customerService;
 	
-	// add mapping for GET /customers
 	@GetMapping("/customers")
 	public List<Customer> getCustomers() {
-		
-		return customerService.getCustomers();
-		
+			return customerService.getCustomers();
 	}
-	
-	// add mapping for GET /customers/{customerId}
 	
 	@GetMapping("/customers/{customerId}")
 	public Customer getCustomer(@PathVariable int customerId) {
@@ -45,8 +39,6 @@ public class CustomerRestController {
 		return theCustomer;
 	}
 	
-	// add mapping for POST /customers  - add new customer
-	
 	@PostMapping("/customers")
 	public Customer addCustomer(@RequestBody Customer theCustomer) {
 		
@@ -54,19 +46,13 @@ public class CustomerRestController {
 		// this is force a save of new item ... instead of update
 		
 		theCustomer.setId(0);
-		
 		customerService.saveCustomer(theCustomer);
-		
 		return theCustomer;
 	}
 	
-	// add mapping for PUT /customers - update existing customer
-	
 	@PutMapping("/customers")
 	public Customer updateCustomer(@RequestBody Customer theCustomer) {
-		
 		customerService.saveCustomer(theCustomer);
-		
 		return theCustomer;
 		
 	}
@@ -75,17 +61,13 @@ public class CustomerRestController {
 	
 	@DeleteMapping("/customers/{customerId}")
 	public String deleteCustomer(@PathVariable int customerId) {
-		
 		Customer tempCustomer = customerService.getCustomer(customerId);
-		
 		// throw exception if null
-		
 		if (tempCustomer == null) {
 			throw new CustomerNotFoundException("Customer id not found - " + customerId);
 		}
 				
 		customerService.deleteCustomer(customerId);
-		
 		return "Deleted customer id - " + customerId;
 	}
 	
